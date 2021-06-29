@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:freebookshare/Home%20Page/Drawer/ProfileUpdate.dart';
+import 'package:freebookshare/Home%20Page/Drawer/Profile/ProfileUpdate.dart';
 
 import '../../Constants.dart';
-
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({
@@ -32,7 +31,7 @@ class NavigationDrawer extends StatelessWidget {
             leading: Icon(Icons.perm_identity),
             title: Text('Profile'),
             onTap: () {
-              Navigator.pushNamed(context,Profileupdate.id);
+              Navigator.pushNamed(context, Profileupdate.id);
             },
           ),
           ListTile(
@@ -61,4 +60,3 @@ class NavigationDrawer extends StatelessWidget {
     );
   }
 }
-

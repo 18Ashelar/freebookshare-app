@@ -1,10 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:freebookshare/Constants.dart';
 import 'package:freebookshare/Routes.dart';
-
 import 'package:freebookshare/WelcomePage.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: routes,
       theme: ThemeData(
         primaryColor: kPrimaryColor,
+        //  canvasColor: Colors.transparent,
         scaffoldBackgroundColor: kBackgroundColor,
       ),
     );

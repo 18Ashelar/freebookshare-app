@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PopMenuBtnRightCorner extends StatelessWidget {
   PopMenuBtnRightCorner({this.icon});
 
-  Icon icon;
+  final Icon icon;
 
   @override
   Widget build(BuildContext context) {

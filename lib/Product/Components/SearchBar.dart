@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-
-import '../../Constants.dart';
+import 'package:freebookshare/SizeConfig.dart';
 
 class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-          top: 10.0,
-          bottom: kDefaultPadding),
+          left: getProportionateScreenWidth(20),
+          right: getProportionateScreenWidth(20),
+          top: getProportionateScreenHeight(15),
+          bottom: getProportionateScreenHeight(20)),
       padding: EdgeInsets.symmetric(
-          horizontal: kDefaultPadding, vertical: kDefaultPadding / 4),
+          horizontal: getProportionateScreenWidth(20),
+          vertical: getProportionateScreenHeight(5)),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
           color: Colors.white.withOpacity(0.4)),
       child: TextField(
         style: TextStyle(
-          fontSize: 18.0,
+          fontSize: getProportionateScreenHeight(20),
           color: Colors.white,
         ),
         decoration: InputDecoration(
             icon: Icon(
               Icons.search,
               color: Colors.white,
-              size: 30.0,
+              size: getProportionateScreenHeight(30),
             ),
             enabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none,

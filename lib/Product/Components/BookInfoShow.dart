@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:freebookshare/SizeConfig.dart';
 
 class BookInfoShow extends StatelessWidget {
   BookInfoShow({this.title, this.value, this.maxLine});
 
-  String title;
-  String value;
-  int maxLine;
+  final String title;
+  final String value;
+  final int maxLine;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class BookInfoShow extends StatelessWidget {
           title,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 18.0,
+            fontSize: getProportionateScreenHeight(20),
           ),
         ),
         Flexible(
@@ -25,7 +26,7 @@ class BookInfoShow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: maxLine,
             style: TextStyle(
-              fontSize: 15.0,
+              fontSize: getProportionateScreenHeight(17),
             ),
           ),
         )

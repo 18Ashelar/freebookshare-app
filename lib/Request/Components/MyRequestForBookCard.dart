@@ -6,7 +6,7 @@ import '../../SizeConfig.dart';
 class MyRequestForBookCard extends StatelessWidget {
   MyRequestForBookCard({this.imgPath});
 
-  String imgPath;
+  final String imgPath;
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +15,14 @@ class MyRequestForBookCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(
           horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
       child: Stack(
-       clipBehavior: Clip.none,
+        clipBehavior: Clip.none,
         alignment: Alignment.bottomCenter,
         children: [
           Container(
             // height: getProportionateScreenHeight(300),
             width: double.infinity,
-            decoration: BoxDecoration(
-                boxShadow: [kDefaultShadow],
-                color: Colors.white),
+            decoration:
+                BoxDecoration(boxShadow: [kDefaultShadow], color: Colors.white),
           ),
           Positioned(
               bottom: 10,
@@ -40,47 +39,45 @@ class MyRequestForBookCard extends StatelessWidget {
                 ),
               )),
           Positioned(
-            right:getProportionateScreenWidth(10),
+            right: getProportionateScreenWidth(10),
             bottom: getProportionateScreenWidth(10),
-            child:Container(
-            child: Row(
-              children: [
-                Text("Created At: ",style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold
-            )),
-                Text("10/06/2020"),
-              ],
+            child: Container(
+              child: Row(
+                children: [
+                  Text("Created At: ",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text("10/06/2020"),
+                ],
+              ),
             ),
-          ),),
+          ),
           Positioned(
             left: 160,
             top: 20,
-            child:Container(
+            child: Container(
               child: Row(
                 children: [
-                  Text("Status: ",style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold
-                  ),),
+                  Text(
+                    "Status: ",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
                   Text("Pending"),
                 ],
               ),
-            ),),
+            ),
+          ),
 
           //Close Button
           Positioned(
             top: -15,
             right: -15,
-
             child: IconButton(
-              onPressed: () {
-              },
-              icon:CircleAvatar(
+              onPressed: () {},
+              icon: CircleAvatar(
                 radius: 30,
                 child: Icon(Icons.close),
                 backgroundColor: Colors.red,
-
               ),
             ),
           ),

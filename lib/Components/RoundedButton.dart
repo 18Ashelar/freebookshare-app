@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freebookshare/SizeConfig.dart';
 
 class RoundedButton extends StatelessWidget {
   RoundedButton({this.label, this.btnColor, this.textColor, this.press});
@@ -17,7 +18,7 @@ class RoundedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(30.0),
         ),
         textStyle: TextStyle(
-          fontSize: 20.0,
+          fontSize: getProportionateScreenHeight(22),
         ),
         primary: btnColor,
         onPrimary: textColor,

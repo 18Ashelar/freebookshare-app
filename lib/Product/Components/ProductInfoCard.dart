@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freebookshare/Product/Components/ProductDetails.dart';
+import 'package:freebookshare/Product/Screens/ProductDetails.dart';
 
 import '../../Constants.dart';
 import '../../SizeConfig.dart';
@@ -7,7 +7,7 @@ import '../../SizeConfig.dart';
 class ProductInfoCard extends StatelessWidget {
   ProductInfoCard({this.imgPath});
 
-  String imgPath;
+  final String imgPath;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,8 @@ class ProductInfoCard extends StatelessWidget {
       child: Container(
         height: getProportionateScreenHeight(190),
         margin: EdgeInsets.symmetric(
-            horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),
-        // color: Colors.deepOrangeAccent,
+            horizontal: getProportionateScreenWidth(20),
+            vertical: getProportionateScreenHeight(15)),
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -32,11 +32,11 @@ class ProductInfoCard extends StatelessWidget {
                   color: Colors.white),
             ),
             Positioned(
-                bottom: 10,
-                left: 10,
+                bottom: getProportionateScreenHeight(10),
+                left: getProportionateScreenWidth(10),
                 child: Container(
                   height: getProportionateScreenHeight(170),
-                  width: getProportionateScreenWidth(130),
+                  width: getProportionateScreenWidth(120),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(22),
                     image: DecorationImage(
@@ -47,12 +47,11 @@ class ProductInfoCard extends StatelessWidget {
                   ),
                 )),
             Container(
-              //  color: Colors.red,
+              //color: Colors.blue,
               margin: EdgeInsets.only(
-                  left: getProportionateScreenWidth(150),
-                  right: 10.0,
-                  bottom: 5.0),
-
+                  left: getProportionateScreenWidth(140),
+                  right: getProportionateScreenWidth(10),
+                  bottom: getProportionateScreenHeight(5)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -64,7 +63,7 @@ class ProductInfoCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                          fontSize: getProportionateScreenHeight(20),
                         ),
                       ),
                       Flexible(
@@ -72,7 +71,7 @@ class ProductInfoCard extends StatelessWidget {
                           "Head First Java Book is very beautiful and the best jjjj",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 15.0,
+                            fontSize: getProportionateScreenHeight(17),
                           ),
                         ),
                       )
@@ -85,7 +84,7 @@ class ProductInfoCard extends StatelessWidget {
                         "Language: ",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                          fontSize: getProportionateScreenHeight(20),
                         ),
                       ),
                       Flexible(
@@ -93,7 +92,7 @@ class ProductInfoCard extends StatelessWidget {
                           "Marathi",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 15.0,
+                            fontSize: getProportionateScreenHeight(17),
                           ),
                         ),
                       )
@@ -106,7 +105,7 @@ class ProductInfoCard extends StatelessWidget {
                         "ISBN: ",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                          fontSize: getProportionateScreenHeight(20),
                         ),
                       ),
                       Flexible(
@@ -114,7 +113,7 @@ class ProductInfoCard extends StatelessWidget {
                           "12345678996",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 15.0,
+                            fontSize: getProportionateScreenHeight(17),
                           ),
                         ),
                       )
@@ -128,7 +127,7 @@ class ProductInfoCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                          fontSize: getProportionateScreenHeight(20),
                         ),
                       ),
                       Flexible(
@@ -136,7 +135,7 @@ class ProductInfoCard extends StatelessWidget {
                           "Mumbai",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontSize: 15.0,
+                            fontSize: getProportionateScreenHeight(17),
                           ),
                         ),
                       )
@@ -150,10 +149,9 @@ class ProductInfoCard extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
+                          fontSize: getProportionateScreenHeight(20),
                         ),
                       ),
-
                     ],
                   ),
                 ],

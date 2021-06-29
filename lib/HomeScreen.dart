@@ -5,16 +5,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freebookshare/Constants.dart';
 import 'package:freebookshare/Request/Screens/MyRequestForBook.dart';
 import 'package:freebookshare/SizeConfig.dart';
-import 'package:freebookshare/TestLayout.dart';
+import 'package:freebookshare/TestFile/TestLayout.dart';
+
 import 'Components/ImageSliderDesign.dart';
-import 'Components/ProductCard.dart';
 import 'Home Page/Components/NavigationDrawer.dart';
 import 'Home Page/Components/TopNavigationBar.dart';
-import 'Product/Components/ProductInfoCard.dart';
-import 'Product/Screens/AddBookForm.dart';
+import 'Product/Components/ProductCard.dart';
+import 'Product/Screens/All_available_books.dart';
 import 'Request/Components/MyBookRequestCard.dart';
-import 'Screens/AddBookRequest.dart';
-import 'Screens/All_available_books.dart';
 import 'SectionTitle.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -49,6 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //To get userId when user login
+    // final routesData =
+    //     ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    // final userId = routesData['userId'];
     SizeConfig().init(context);
 
     return Scaffold(
@@ -62,17 +64,16 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Container(
                 height: getProportionateScreenHeight(170),
-                // color: Colors.red,
+                //color: Colors.red,
                 child: Stack(
                   children: [
-
                     //App Bar Title and Logo
                     Container(
                       height: getProportionateScreenHeight(150),
                       padding: EdgeInsets.only(
-                        left: kDefaultPadding,
-                        right: kDefaultPadding,
-                        bottom: 60 + kDefaultPadding,
+                        left: getProportionateScreenWidth(20),
+                        right: getProportionateScreenWidth(20),
+                        bottom: getProportionateScreenHeight(80),
                       ),
                       decoration: BoxDecoration(
                           color: kPrimaryColor,
@@ -84,9 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             "Free Book Share",
-                            style: Theme.of(context).textTheme.headline5.copyWith(
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: getProportionateScreenHeight(30),
                                 ),
                           ),
                           Spacer(),
@@ -100,9 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     //Top Navigation Bar
                     Positioned(
-                      left: getProportionateScreenWidth(30),
-                      right: getProportionateScreenWidth(30),
-                      bottom: getProportionateScreenHeight(30),
+                      left: getProportionateScreenWidth(20),
+                      right: getProportionateScreenWidth(20),
+                      bottom: getProportionateScreenHeight(25),
                       child: TopNavigationBar(),
                     )
                   ],
@@ -127,7 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             }),
                       ),
                       CourosalSliderIndicator(current: _current),
-
                     ],
                   )),
 
@@ -141,8 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SectionTitle(
                         title: "Latest Book",
                         press: () {
-                          Navigator.pushNamed(
-                              context, AllAvailableBooks.id);
+                          Navigator.pushNamed(context, AllAvailableBooks.id);
                         }),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -150,16 +153,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           ...List.generate(
                               bookimgList.length,
-                                  (index) => ProductCard(
-                                imgPath: bookimgList[index],
-                              )),
+                              (index) => ProductCard(
+                                    imgPath: bookimgList[index],
+                                  )),
                         ],
                       ),
                     )
                   ],
                 ),
               ),
-
 
               //Book Requirement
               Container(
@@ -171,8 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SectionTitle(
                         title: "Book Requirements",
                         press: () {
-                          Navigator.pushNamed(
-                              context, AllAvailableBooks.id);
+                          Navigator.pushNamed(context, AllAvailableBooks.id);
                         }),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -180,9 +181,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           ...List.generate(
                               bookimgList.length,
-                                  (index) => ProductCard(
-                                imgPath: bookimgList[index],
-                              )),
+                              (index) => ProductCard(
+                                    imgPath: bookimgList[index],
+                                  )),
                         ],
                       ),
                     )
@@ -193,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // Request For Your Books
               Container(
                 padding: EdgeInsets.symmetric(
-                  vertical: getProportionateScreenHeight(15),
+                    vertical: getProportionateScreenHeight(15),
                     horizontal: getProportionateScreenWidth(5)),
                 child: Column(
                   children: [
@@ -205,15 +206,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.black,
                         ),
                       ),
-                      margin:EdgeInsets.only(right:getProportionateScreenWidth(150)),
+                      margin: EdgeInsets.only(
+                          right: getProportionateScreenWidth(150)),
                     ),
                     ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: bookimgList.length,
                         itemBuilder: (context, index) => MyBookRequestCard(
-                          imgPath: bookimgList[index],
-                        ))
+                              imgPath: bookimgList[index],
+                            ))
                   ],
                 ),
               ),
@@ -225,7 +227,8 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.book), label: "Books"),
-          BottomNavigationBarItem(icon: Icon(Icons.request_page), label: "My Requests"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.request_page), label: "My Requests"),
           BottomNavigationBarItem(icon: Icon(Icons.help), label: "Contact Us"),
         ],
         backgroundColor: kPrimaryColor,
@@ -236,16 +239,21 @@ class _HomeScreenState extends State<HomeScreen> {
         unselectedFontSize: 14,
         onTap: _onItemTapped,
       ),
-
     );
   }
 
   AppBar buildAppBar() {
     return AppBar(
       actions: [
-        IconButton(onPressed: (){
-          Navigator.pushNamed(context, TestLayout.id);
-        },icon:Icon(Icons.notifications,color: Colors.white,)),
+        IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, TestLayout.id);
+            },
+            icon: Icon(
+              Icons.notifications,
+              size: getProportionateScreenHeight(30),
+              color: Colors.white,
+            )),
       ],
       leading: IconButton(
         icon: SvgPicture.asset("assets/menu.svg"),

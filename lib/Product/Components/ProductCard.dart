@@ -3,7 +3,7 @@ import 'package:freebookshare/SizeConfig.dart';
 
 class ProductCard extends StatelessWidget {
   ProductCard({this.imgPath});
-  String imgPath;
+  final String imgPath;
 
   @override
   Widget build(BuildContext context) {

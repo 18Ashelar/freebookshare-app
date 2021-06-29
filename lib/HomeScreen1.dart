@@ -2,13 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freebookshare/Components/ImageSliderDesign.dart';
-import 'package:freebookshare/Screens/AddBookRequest.dart';
-import 'package:freebookshare/Screens/All_available_books.dart';
+import 'package:freebookshare/Product/Screens/All_available_books.dart';
 import 'package:freebookshare/SectionTitle.dart';
 import 'package:freebookshare/SizeConfig.dart';
+
 import 'Components/PopUpMenuRightCorner.dart';
-import 'Components/ProductCard.dart';
 import 'Constants.dart';
+import 'Product/Components/ProductCard.dart';
 import 'Product/Screens/AddBookForm.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushNamed(context, AddBookForm.id);
         break;
       case 2:
-        Navigator.pushNamed(context, AddBookRequest.id);
+      // Navigator.pushNamed(context, AddBookRequest.id);
     }
   }
 
