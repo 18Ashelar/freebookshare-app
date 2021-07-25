@@ -1,17 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freebookshare/Constants.dart';
-import 'package:freebookshare/Request/Screens/MyRequestForBook.dart';
+import 'package:freebookshare/Home%20Page/Components/LatestBookShimmerEffect.dart';
 import 'package:freebookshare/SizeConfig.dart';
-import 'package:freebookshare/TestFile/TestLayout.dart';
 
 import 'Components/ImageSliderDesign.dart';
-import 'Home Page/Components/NavigationDrawer.dart';
+import 'FirebaseServices/BookFirebaseService.dart';
+import 'Getters And Setters/BookInfo.dart';
 import 'Home Page/Components/TopNavigationBar.dart';
 import 'Product/Components/ProductCard.dart';
-import 'Product/Screens/All_available_books.dart';
 import 'Request/Components/MyBookRequestCard.dart';
 import 'SectionTitle.dart';
 
@@ -24,26 +23,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _current = 0;
-  var Scaffoldkey = GlobalKey<ScaffoldState>();
-
-  int _selectIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectIndex = index;
-    });
-
-    switch (_selectIndex) {
-      case 0:
-        Navigator.pushNamed(context, AllAvailableBooks.id);
-        break;
-      case 1:
-        Navigator.pushNamed(context, MyRequestForBook.id);
-        break;
-      case 2:
-        Navigator.pushNamed(context, MyRequestForBook.id);
-    }
-  }
+  BookFirebaseService service = BookFirebaseService();
+  List<BookInfo> list = [];
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
     SizeConfig().init(context);
 
     return Scaffold(
-      key: Scaffoldkey,
-      drawer: NavigationDrawer(),
-      appBar: buildAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -71,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       height: getProportionateScreenHeight(150),
                       padding: EdgeInsets.only(
-                        left: getProportionateScreenWidth(20),
-                        right: getProportionateScreenWidth(20),
+                        left: getProportionateScreenWidth(25),
+                        right: getProportionateScreenWidth(25),
                         bottom: getProportionateScreenHeight(80),
                       ),
                       decoration: BoxDecoration(
@@ -143,55 +121,77 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     SectionTitle(
-                        title: "Latest Book",
-                        press: () {
-                          Navigator.pushNamed(context, AllAvailableBooks.id);
+                      title: "Latest Book",
+                      // press: () {
+                      //   Navigator.pushNamed(context, AllAvailableBooks.id);
+                      //}
+                    ),
+                    StreamBuilder<QuerySnapshot<BookInfo>>(
+                        stream: service.latestBookData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            list = snapshot.data.docs
+                                .map((e) => e.data())
+                                .toList();
+                            return Container(
+                              //color: Colors.red,
+                              height: getProportionateScreenHeight(210),
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: list.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return ProductCard(
+                                      bookInfo: list[index],
+                                    );
+                                  }),
+                            );
+                          } else {
+                            return LatestBookShimmerEffect();
+                          }
                         }),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          ...List.generate(
-                              bookimgList.length,
-                              (index) => ProductCard(
-                                    imgPath: bookimgList[index],
-                                  )),
-                        ],
-                      ),
-                    )
                   ],
                 ),
               ),
 
               //Book Requirement
-              Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: getProportionateScreenHeight(15),
-                    horizontal: getProportionateScreenWidth(15)),
-                child: Column(
-                  children: [
-                    SectionTitle(
-                        title: "Book Requirements",
-                        press: () {
-                          Navigator.pushNamed(context, AllAvailableBooks.id);
-                        }),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          ...List.generate(
-                              bookimgList.length,
-                              (index) => ProductCard(
-                                    imgPath: bookimgList[index],
-                                  )),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              // Container(
+              //   padding: EdgeInsets.symmetric(
+              //       vertical: getProportionateScreenHeight(15),
+              //       horizontal: getProportionateScreenWidth(15)),
+              //   child: Column(
+              //     children: [
+              //       SectionTitle(
+              //           title: "Book Requirements",
+              //           press: () {
+              //             Navigator.pushNamed(context, AllAvailableBooks.id);
+              //           }),
+              //       SingleChildScrollView(
+              //         scrollDirection: Axis.horizontal,
+              //         child: Row(
+              //           children: [
+              //             ...List.generate(
+              //                 bookimgList.length,
+              //                 (index) => InkWell(
+              //                       onTap: () {
+              //                         Navigator.pushNamed(
+              //                             context, ProductDetails.id,
+              //                             arguments: {"BookInfo": list[index]});
+              //                       },
+              //                       child: ProductCard(
+              //                         imgPath: bookimgList[index],
+              //                       ),
+              //                     )),
+              //           ],
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
 
               // Request For Your Books
+
               Container(
                 padding: EdgeInsets.symmetric(
                     vertical: getProportionateScreenHeight(15),
@@ -223,46 +223,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: "Books"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.request_page), label: "My Requests"),
-          BottomNavigationBarItem(icon: Icon(Icons.help), label: "Contact Us"),
-        ],
-        backgroundColor: kPrimaryColor,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(.60),
-        selectedFontSize: 14,
-        currentIndex: _selectIndex,
-        unselectedFontSize: 14,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-
-  AppBar buildAppBar() {
-    return AppBar(
-      actions: [
-        IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, TestLayout.id);
-            },
-            icon: Icon(
-              Icons.notifications,
-              size: getProportionateScreenHeight(30),
-              color: Colors.white,
-            )),
-      ],
-      leading: IconButton(
-        icon: SvgPicture.asset("assets/menu.svg"),
-        onPressed: () {
-          Scaffoldkey.currentState.openDrawer();
-        },
-      ),
-      backgroundColor: kPrimaryColor,
-      elevation: 0,
     );
   }
 }

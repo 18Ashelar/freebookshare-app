@@ -5,10 +5,10 @@ import 'package:freebookshare/Constants.dart';
 import 'package:freebookshare/Login%20and%20Registration/Components/DisplayError.dart';
 import 'package:freebookshare/Login%20and%20Registration/Components/LoginInputFormField.dart';
 import 'package:freebookshare/Login%20and%20Registration/Components/StartUpImage.dart';
+import 'package:freebookshare/MainScreen.dart';
 import 'package:freebookshare/SizeConfig.dart';
 
 import '../../Components/RoundedButton.dart';
-import '../../HomeScreen.dart';
 import '../FirebaseAuthenticationServices.dart';
 import 'RegisterScreen.dart';
 
@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment(1.0, 0.0),
                             child: InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(context, HomeScreen.id);
+                                  Navigator.pushNamed(context, MainScreen.id);
                                 },
                                 child: Text(
                                   "Forgot Password?",
@@ -145,12 +145,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<String> login() async {
+  Future login() async {
     try {
       dynamic result = await AuthenticationService()
           .userSignIn(_loginEmailContoller.text, _loginPasswordController.text);
-      Navigator.of(context)
-          .pushReplacementNamed(HomeScreen.id, arguments: {'userId': result});
+      Navigator.of(context).pushReplacementNamed(MainScreen.id);
     } on FirebaseAuthException catch (e) {
       setState(() {
         loginError = e.message;

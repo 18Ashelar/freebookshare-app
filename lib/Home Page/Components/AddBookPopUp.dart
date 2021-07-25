@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:freebookshare/Getters%20And%20Setters/BarcodeScreenArgument.dart';
+import 'package:freebookshare/Product/BookUploadFromInternet/BookLoaderFromGoogle.dart';
 import 'package:freebookshare/Product/Screens/AddBookForm.dart';
-import 'package:freebookshare/TestFile/BarcodeScanner.dart';
 
 import '../../Constants.dart';
 import '../../SizeConfig.dart';
 
 class AddBookPopUp extends StatelessWidget {
-  AddBookPopUp({this.barcodeOpener, this.barcodeContend});
-
-  Function barcodeOpener;
-  String barcodeContend;
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -43,10 +37,10 @@ class AddBookPopUp extends StatelessWidget {
                       primary: kPrimaryButtonColor,
                     ),
                     onPressed: () {
-                      barcodeOpener();
-                      print(barcodeContend);
-                      Navigator.pushNamed(context, BarcodeScanner.id,
-                          arguments: BarcodeScreenArguments(barcodeContend));
+                      Navigator.pushNamed(
+                        context,
+                        BookLoaderFromInternet.id,
+                      );
                     },
                     icon: Icon(
                       Icons.qr_code,
@@ -79,32 +73,6 @@ class AddBookPopUp extends StatelessWidget {
                       ),
                     ),
                   )
-
-                  // TextField(
-                  //   keyboardType: TextInputType.name,
-                  //   onChanged: (value) {
-                  //     // email = value;
-                  //   },
-                  //   decoration:
-                  //   kTextFieldDecoration.copyWith(hintText: 'Search Book Name',
-                  //   ),
-                  // ),
-                  // SizedBox(height: getProportionateScreenHeight(20),),
-                  // SizedBox(
-                  //  width:getProportionateScreenWidth(200),
-                  //   height:getProportionateScreenHeight(50),
-                  //   child: TextButton(
-                  //     child: Text("Search"),
-                  //     onPressed: () {},
-                  //     style: TextButton.styleFrom(
-                  //         textStyle: TextStyle(fontSize: 20.0),
-                  //         backgroundColor:kPrimaryButtonColor,
-                  //         primary: Colors.white,
-                  //         shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(20),
-                  //         )),
-                  //   ),
-                  // )
                 ],
               ),
             ),

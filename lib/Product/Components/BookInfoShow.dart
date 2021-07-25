@@ -22,7 +22,7 @@ class BookInfoShow extends StatelessWidget {
         ),
         Flexible(
           child: Text(
-            value,
+            value ?? "",
             overflow: TextOverflow.ellipsis,
             maxLines: maxLine,
             style: TextStyle(

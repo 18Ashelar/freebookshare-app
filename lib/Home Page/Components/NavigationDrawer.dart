@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freebookshare/Home%20Page/Drawer/MyBooks/MyBooks.dart';
 import 'package:freebookshare/Home%20Page/Drawer/Profile/ProfileUpdate.dart';
 
 import '../../Constants.dart';
@@ -36,14 +37,14 @@ class NavigationDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.book),
-            title: Text('Your Books'),
+            title: Text('My Books'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, MyBooks.id);
             },
           ),
           ListTile(
             leading: Icon(Icons.request_page),
-            title: Text('Your Requests'),
+            title: Text('My Requests'),
             onTap: () {
               Navigator.pop(context);
             },

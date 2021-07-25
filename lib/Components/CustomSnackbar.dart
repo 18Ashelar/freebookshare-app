@@ -36,4 +36,15 @@ class CustomSnackbar {
     ),
     backgroundColor: Colors.red,
   );
+
+  static final bookPhotoValidateSnackbar = SnackBar(
+    behavior: SnackBarBehavior.floating,
+    content: Text(
+      'Please upload book image.',
+      style: TextStyle(
+        fontSize: getProportionateScreenHeight(20),
+      ),
+    ),
+    backgroundColor: Colors.red,
+  );
 }

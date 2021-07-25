@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:freebookshare/Getters%20And%20Setters/UserInfo.dart';
 
 class FirebaseServices {
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
@@ -18,8 +17,7 @@ class FirebaseServices {
   }
 
   Future<String> addUserProfilePhoto(File profileImage) async {
-    final ref =
-        storage.ref().child("user_profile_image").child(await uid() + ".jpg");
+    final ref = storage.ref().child("user_profile_image").child(uid() + ".jpg");
     await ref.putFile(profileImage);
 
     return await ref.getDownloadURL();
@@ -39,6 +37,7 @@ class FirebaseServices {
         "pin_code": user.pinCode
       },
       "profile_image": user.profileImage,
+      "createdAt": Timestamp.now(),
     });
   }
 

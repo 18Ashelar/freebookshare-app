@@ -1,17 +1,17 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freebookshare/Components/CircularLoader.dart';
 import 'package:freebookshare/Components/CustomSnackbar.dart';
 import 'package:freebookshare/Constants.dart';
-import 'package:freebookshare/FirebaseServices/DatabaseService.dart';
+import 'package:freebookshare/FirebaseServices/UserFirebaseService.dart';
 import 'package:freebookshare/Getters%20And%20Setters/UserInfo.dart';
 import 'package:freebookshare/Login%20and%20Registration/Components/LoginInputFormField.dart';
 import 'package:freebookshare/Screens/ImageTapZoom.dart';
 import 'package:freebookshare/SizeConfig.dart';
-import 'package:freebookshare/Widgets/DropDown.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -53,6 +53,7 @@ class _ProfileupdateState extends State<Profileupdate>
   TextEditingController _city = TextEditingController();
   TextEditingController _pinCode = TextEditingController();
 
+  //This method fetch user data
   void _fetchUserData() async {
     try {
       setState(() {
@@ -226,26 +227,41 @@ class _ProfileupdateState extends State<Profileupdate>
                                 SizedBox(
                                     height: getProportionateScreenHeight(25)),
                                 Container(
-                                  child: DropDownFormField(
-                                    hintText: 'Gender',
-                                    value: _myActivity,
+                                  child: DropdownSearch<String>(
+                                    dropdownSearchDecoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical:
+                                              getProportionateScreenHeight(5),
+                                          horizontal:
+                                              getProportionateScreenWidth(20)),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(32.0)),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: kPrimaryColor, width: 1.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(32.0)),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: kPrimaryColor, width: 2.0),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(32.0)),
+                                      ),
+                                    ),
+                                    items: ["Male", "Female", "Transgender"],
+                                    maxHeight:
+                                        getProportionateScreenHeight(200),
+                                    hint: "Gender",
+                                    selectedItem: _myActivity,
                                     onChanged: (value) {
                                       setState(() {
                                         _myActivity = value;
                                       });
                                     },
-                                    dataSource: [
-                                      {
-                                        "display": "Male",
-                                        "value": "Male",
-                                      },
-                                      {
-                                        "display": "Female",
-                                        "value": "Female",
-                                      },
-                                    ],
-                                    textField: 'display',
-                                    valueField: 'value',
+                                    showSearchBox: false,
                                   ),
                                 ),
                               ],
@@ -433,36 +449,70 @@ class _ProfileupdateState extends State<Profileupdate>
         TextButton(
           onPressed: () async {
             if (validate()) {
-              if (profileImage != null) {
-                setState(() {
-                  _isProgress = true;
-                });
-                var url = service.addUserProfilePhoto(profileImage);
-                UserProfile ob = new UserProfile(
-                    _firstName.text,
-                    _lastName.text,
-                    _nickName.text,
-                    _age.text,
-                    _myActivity,
-                    _country.text,
-                    _phoneNo.text,
-                    _city.text,
-                    _pinCode.text,
-                    await url);
-                service.addUserProfileData(ob).then((value) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(CustomSnackbar.snackBar);
+              if (profileImage != null || imgUrl != null) {
+                //When user don't want to update profile photo
+                if (imgUrl != null && profileImage == null) {
                   setState(() {
-                    _isProgress = false;
-                    print("User Profile Updated");
+                    _isProgress = true;
                   });
-                }).catchError((e) {
+                  UserProfile ob = new UserProfile(
+                      _firstName.text,
+                      _lastName.text,
+                      _nickName.text,
+                      _age.text,
+                      _myActivity,
+                      _country.text,
+                      _phoneNo.text,
+                      _city.text,
+                      _pinCode.text,
+                      imgUrl);
+                  service.addUserProfileData(ob).then((value) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(CustomSnackbar.snackBar);
+
+                    setState(() {
+                      _isProgress = false;
+                      print("User Profile Updated");
+                    });
+                  }).catchError((e) {
+                    setState(() {
+                      _isProgress = false;
+                    });
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(CustomSnackbar.errorSnackBar);
+                  });
+                } else {
                   setState(() {
-                    _isProgress = false;
+                    _isProgress = true;
                   });
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(CustomSnackbar.errorSnackBar);
-                });
+                  var url = await service.addUserProfilePhoto(profileImage);
+                  UserProfile ob = new UserProfile(
+                      _firstName.text,
+                      _lastName.text,
+                      _nickName.text,
+                      _age.text,
+                      _myActivity,
+                      _country.text,
+                      _phoneNo.text,
+                      _city.text,
+                      _pinCode.text,
+                      url);
+                  service.addUserProfileData(ob).then((value) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(CustomSnackbar.snackBar);
+
+                    setState(() {
+                      _isProgress = false;
+                      print("User Profile Updated");
+                    });
+                  }).catchError((e) {
+                    setState(() {
+                      _isProgress = false;
+                    });
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(CustomSnackbar.errorSnackBar);
+                  });
+                }
               } else {
                 ScaffoldMessenger.of(context)
                     .showSnackBar(CustomSnackbar.profilePhotoValidateSnackbar);

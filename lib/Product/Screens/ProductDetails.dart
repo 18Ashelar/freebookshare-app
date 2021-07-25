@@ -1,6 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:freebookshare/Components/PopUpMenuRightCorner.dart';
+import 'package:freebookshare/Getters%20And%20Setters/BookInfo.dart';
 
 import '../../Constants.dart';
 import '../../SizeConfig.dart';
@@ -25,15 +26,34 @@ class _ProductDetailsState extends State<ProductDetails>
 
   @override
   Widget build(BuildContext context) {
+    //To get BookData
+    final BookData =
+        ModalRoute.of(context).settings.arguments as Map<String, BookInfo>;
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      //  appBar: buildAppBar(),
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
                 child: Stack(
               children: [
+                //Back Button
+                Positioned(
+                    left: getProportionateScreenWidth(0),
+                    top: getProportionateScreenHeight(5),
+                    child: Container(
+                        child: IconButton(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                    ))),
+
                 //BackGround Container
                 Container(
                   margin:
@@ -49,19 +69,85 @@ class _ProductDetailsState extends State<ProductDetails>
                 Positioned(
                   left: getProportionateScreenWidth(60),
                   right: getProportionateScreenWidth(60),
-                  child: Container(
-                    height: getProportionateScreenHeight(270),
-                    margin: EdgeInsets.symmetric(
-                        horizontal: getProportionateScreenWidth(30),
-                        vertical: getProportionateScreenHeight(20)),
-                    decoration: BoxDecoration(
-                      boxShadow: [kDefaultShadow],
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage("assets/bookImage/3.jpg"),
+                  child: CachedNetworkImage(
+                    imageUrl: BookData["BookInfo"].imgPath,
+                    imageBuilder: (context, imageProvider) => Container(
+                      height: getProportionateScreenHeight(270),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: getProportionateScreenWidth(30),
+                          vertical: getProportionateScreenHeight(20)),
+                      decoration: BoxDecoration(
+                        boxShadow: [kDefaultShadow],
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: imageProvider,
+                        ),
                       ),
                     ),
+                    placeholder: (context, url) => Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFcac5ce),
+                        boxShadow: [kDefaultShadow],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: getProportionateScreenWidth(30),
+                          vertical: getProportionateScreenHeight(20)),
+                      width: getProportionateScreenWidth(150),
+                      height: getProportionateScreenHeight(270),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: kPrimaryColor,
+                          strokeWidth: 5,
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Color(0xFFcac5ce),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        margin: EdgeInsets.symmetric(
+                            horizontal: getProportionateScreenWidth(30),
+                            vertical: getProportionateScreenHeight(20)),
+                        width: getProportionateScreenWidth(150),
+                        height: getProportionateScreenHeight(270),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.image_rounded,
+                              color: Color(0xFF737373),
+                              size: getProportionateScreenHeight(45),
+                            ),
+                            SizedBox(
+                              height: getProportionateScreenHeight(10),
+                            ),
+                            Text(
+                              "Book Image",
+                              style: TextStyle(
+                                color: Color(0xFF737373),
+                                fontSize: getProportionateScreenHeight(20),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: getProportionateScreenHeight(10),
+                            ),
+                            Text(
+                              "Not Found",
+                              style: TextStyle(
+                                color: Color(0xFF737373),
+                                fontSize: getProportionateScreenHeight(20),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Container(
@@ -107,101 +193,67 @@ class _ProductDetailsState extends State<ProductDetails>
                       children: [
                         SingleChildScrollView(
                           child: Container(
+                            height: getProportionateScreenHeight(700),
                             margin: EdgeInsets.only(
                               top: getProportionateScreenHeight(10),
                               left: getProportionateScreenWidth(15),
                               right: getProportionateScreenWidth(15),
                             ),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 BookInfoShow(
                                   title: "Title: ",
-                                  value:
-                                      "Head First Java Book is very beautiful book and like it so much ",
+                                  value: BookData["BookInfo"].bookName,
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 BookInfoShow(
                                   title: "ISBN: ",
-                                  value: "123123456789",
+                                  value: BookData["BookInfo"].isbnNumber,
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 BookInfoShow(
                                   title: "Created At: : ",
-                                  value: "20/10/2020",
+                                  value: BookData["BookInfo"]
+                                      .createdAt
+                                      .toDate()
+                                      .toString(),
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 BookInfoShow(
                                   title: "Category: ",
-                                  value: "Fiction",
+                                  value: BookData["BookInfo"].bookCategory,
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 BookInfoShow(
                                   title: "Pages: ",
-                                  value: "500",
+                                  value: BookData["BookInfo"].pageCount,
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 BookInfoShow(
                                   title: "Published: ",
-                                  value: "2017",
+                                  value: BookData["BookInfo"].published,
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 BookInfoShow(
                                   title: "Publisher: ",
-                                  value: "xyz publication",
+                                  value: BookData["BookInfo"].publisher,
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 BookInfoShow(
                                   title: "Author: ",
-                                  value: "Robertt Clive",
+                                  value: BookData["BookInfo"].author,
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
-                                ),
-                                BookInfoShow(
-                                  title: "Pages: ",
-                                  value: "500",
-                                  maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 BookInfoShow(
                                   title: "Language: ",
-                                  value: "Marathi",
+                                  value: BookData["BookInfo"].bookLanguage,
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 BookInfoShow(
                                   title: "Location: ",
                                   value: "Mumbai",
                                   maxLine: 1,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,7 +269,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                     ),
                                     Flexible(
                                       child: Text(
-                                        "This is the best book i have ever see in my so please read it carefully it will change your life so please take care then now forever",
+                                        BookData["BookInfo"].bookDescription ??
+                                            "",
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 3,
                                         style: TextStyle(
@@ -227,9 +280,6 @@ class _ProductDetailsState extends State<ProductDetails>
                                       ),
                                     )
                                   ],
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 Row(
                                   children: [
@@ -250,7 +300,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                     ),
                                     Spacer(),
                                     Text(
-                                      "Free to Share",
+                                      BookData["BookInfo"].lendingType ?? "",
                                       style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold,
@@ -259,9 +309,6 @@ class _ProductDetailsState extends State<ProductDetails>
                                       ),
                                     ),
                                   ],
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -284,9 +331,6 @@ class _ProductDetailsState extends State<ProductDetails>
                                       ),
                                     ),
                                   ],
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(10),
                                 ),
                                 Container(
                                     height: getProportionateScreenHeight(50),
@@ -327,19 +371,6 @@ class _ProductDetailsState extends State<ProductDetails>
           ],
         ),
       ),
-    );
-  }
-
-  AppBar buildAppBar() {
-    return AppBar(
-      elevation: 0,
-      title: Text("Free Book Share"),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: PopMenuBtnRightCorner(icon: Icon(Icons.more_vert)),
-        ),
-      ],
     );
   }
 }

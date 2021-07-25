@@ -1,25 +1,29 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:freebookshare/Getters%20And%20Setters/BookInfo.dart';
 import 'package:freebookshare/Product/Screens/ProductDetails.dart';
 
 import '../../Constants.dart';
 import '../../SizeConfig.dart';
 
 class ProductInfoCard extends StatelessWidget {
-  ProductInfoCard({this.imgPath});
+  ProductInfoCard({this.bookInfo});
 
-  final String imgPath;
+  final BookInfo bookInfo;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, ProductDetails.id);
-      },
-      child: Container(
-        height: getProportionateScreenHeight(190),
-        margin: EdgeInsets.symmetric(
-            horizontal: getProportionateScreenWidth(20),
-            vertical: getProportionateScreenHeight(15)),
+    return Container(
+      height: getProportionateScreenHeight(190),
+      margin: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(20),
+          vertical: getProportionateScreenHeight(15)),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, ProductDetails.id, arguments: {
+            "BookInfo": bookInfo,
+          });
+        },
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -34,17 +38,70 @@ class ProductInfoCard extends StatelessWidget {
             Positioned(
                 bottom: getProportionateScreenHeight(10),
                 left: getProportionateScreenWidth(10),
-                child: Container(
-                  height: getProportionateScreenHeight(170),
-                  width: getProportionateScreenWidth(120),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(22),
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(imgPath),
+                child: CachedNetworkImage(
+                  imageUrl: bookInfo.imgPath,
+                  imageBuilder: (context, imageProvider) => Container(
+                    height: getProportionateScreenHeight(170),
+                    width: getProportionateScreenWidth(120),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(22),
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: imageProvider,
+                      ),
+                      color: Colors.grey[300],
                     ),
-                    color: Colors.grey[400],
                   ),
+                  placeholder: (context, url) => Container(
+                    height: getProportionateScreenHeight(170),
+                    width: getProportionateScreenWidth(120),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(22),
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                  errorWidget: (context, url, error) {
+                    return Container(
+                      height: getProportionateScreenHeight(170),
+                      width: getProportionateScreenWidth(120),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(22),
+                        color: Color(0xFFcac5ce),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.image_rounded,
+                            color: Color(0xFF737373),
+                            size: getProportionateScreenHeight(45),
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(10),
+                          ),
+                          Text(
+                            "Book Image",
+                            style: TextStyle(
+                              color: Color(0xFF737373),
+                              fontSize: getProportionateScreenHeight(20),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(10),
+                          ),
+                          Text(
+                            "Not Found",
+                            style: TextStyle(
+                              color: Color(0xFF737373),
+                              fontSize: getProportionateScreenHeight(20),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
                 )),
             Container(
               //color: Colors.blue,
@@ -68,7 +125,7 @@ class ProductInfoCard extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          "Head First Java Book is very beautiful and the best jjjj",
+                          bookInfo.bookName ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(17),
@@ -89,7 +146,7 @@ class ProductInfoCard extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          "Marathi",
+                          bookInfo.bookLanguage ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(17),
@@ -110,7 +167,7 @@ class ProductInfoCard extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          "12345678996",
+                          bookInfo.isbnNumber ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(17),
@@ -145,7 +202,7 @@ class ProductInfoCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        "Free to Share",
+                        bookInfo.lendingType ?? "",
                         style: TextStyle(
                           color: Colors.red,
                           fontWeight: FontWeight.bold,

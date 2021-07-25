@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:freebookshare/Components/PopUpMenuRightCorner.dart';
 import 'package:freebookshare/Request/Components/MyRequestForBookCard.dart';
 
 import '../../Constants.dart';
@@ -11,7 +10,6 @@ class MyRequestForBook extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      appBar: buildAppBar(),
       body: SafeArea(
         child: Column(
           children: [
@@ -40,19 +38,6 @@ class MyRequestForBook extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  AppBar buildAppBar() {
-    return AppBar(
-      elevation: 0,
-      title: Text("Free Book Share"),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: PopMenuBtnRightCorner(icon: Icon(Icons.more_vert)),
-        ),
-      ],
     );
   }
 }
