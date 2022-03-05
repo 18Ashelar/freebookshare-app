@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "848376292464",
+    "project_id": "free-book-share",
+    "storage_bucket": "free-book-share.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848376292464:android:d08df2937917a30d6e80b5",
+        "android_client_info": {
+          "package_name": "com.example.freebookshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848376292464-17oeei827go7rpqg22oehckm1n2j7ecq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAglxji_W2zJn6hV7IxGXwXxsUeapC4Xto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848376292464-17oeei827go7rpqg22oehckm1n2j7ecq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
