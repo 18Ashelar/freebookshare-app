@@ -10,70 +10,80 @@ class AddBookPopUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Container(
-        height: getProportionateScreenHeight(100),
+        height: getProportionateScreenHeight(115),
         child: Stack(
           clipBehavior: Clip.none,
           children: <Widget>[
             Positioned(
               right: -40.0,
               top: -40.0,
-              child: InkResponse(
+              child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
                 },
                 child: CircleAvatar(
-                  child: Icon(Icons.close),
+                  radius: 20,
+                  child: Icon(
+                    Icons.close,
+                    size: 25,
+                  ),
                   backgroundColor: Colors.red,
                 ),
               ),
             ),
             Positioned(
-              left: -10,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TextButton.icon(
-                    style: TextButton.styleFrom(
-                      primary: kPrimaryButtonColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        BookLoaderFromInternet.id,
-                      );
-                    },
-                    icon: Icon(
-                      Icons.qr_code,
-                      size: getProportionateScreenHeight(25),
-                    ),
-                    label: Text(
-                      "Scan Book Barcode and Upload.",
-                      style: TextStyle(
-                        fontSize: getProportionateScreenHeight(15),
-                        fontWeight: FontWeight.bold,
+              right: getProportionateScreenWidth(-20),
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: getProportionateScreenHeight(60),
+                      child: TextButton.icon(
+                        style: TextButton.styleFrom(
+                          primary: kPrimaryButtonColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            BookLoaderFromInternet.id,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.qr_code,
+                          size: 25,
+                        ),
+                        label: Text(
+                          "Scan Book Barcode and Upload.",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
                       ),
                     ),
-                  ),
-                  TextButton.icon(
-                    style: TextButton.styleFrom(
-                      primary: kPrimaryButtonColor,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, AddBookForm.id);
-                    },
-                    icon: Icon(
-                      Icons.book,
-                      size: getProportionateScreenHeight(25),
-                    ),
-                    label: Text(
-                      "Upload Book Manually",
-                      style: TextStyle(
-                        fontSize: getProportionateScreenHeight(15),
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      height: getProportionateScreenHeight(60),
+                      child: TextButton.icon(
+                        style: TextButton.styleFrom(
+                          primary: kPrimaryButtonColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, AddBookForm.id);
+                        },
+                        icon: Icon(
+                          Icons.book,
+                          size: 25,
+                        ),
+                        label: Text(
+                          "Upload Book Manually",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],

@@ -28,6 +28,12 @@ class BookFirebaseService {
             toFirestore: (movie, _) => movie.toJson(),
           );
 
+  static CollectionReference users =
+      FirebaseFirestore.instance.collection('Books');
+
+  static CollectionReference usersData =
+      FirebaseFirestore.instance.collection('Users');
+
   Stream<QuerySnapshot<BookInfo>> latestBookData() {
     return bookRef.limit(10).orderBy("createdAt", descending: true).snapshots();
   }
@@ -52,5 +58,13 @@ class BookFirebaseService {
 
   Stream<QuerySnapshot<BookInfo>> userBooks() {
     return bookRef.where('user_id', isEqualTo: uid()).snapshots();
+  }
+
+  Future<void> deleteUserBook(String bookId) {
+    return bookRef.doc(bookId).delete();
+  }
+
+  Future<void> deleteUserBookImage(String url) {
+    return storage.refFromURL(url).delete();
   }
 }

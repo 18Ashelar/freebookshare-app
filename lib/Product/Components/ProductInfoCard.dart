@@ -7,9 +7,10 @@ import '../../Constants.dart';
 import '../../SizeConfig.dart';
 
 class ProductInfoCard extends StatelessWidget {
-  ProductInfoCard({this.bookInfo});
+  ProductInfoCard({this.bookInfo, this.bookId});
 
   final BookInfo bookInfo;
+  final String bookId;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class ProductInfoCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, ProductDetails.id, arguments: {
-            "BookInfo": bookInfo,
+            "BookInfo": BookInfoWithBookId(bookinfo: bookInfo, bookId: bookId),
           });
         },
         child: Stack(
@@ -219,4 +220,11 @@ class ProductInfoCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class BookInfoWithBookId {
+  BookInfo bookinfo;
+  String bookId;
+
+  BookInfoWithBookId({this.bookinfo, this.bookId});
 }

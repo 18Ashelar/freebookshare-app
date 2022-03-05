@@ -9,6 +9,7 @@ import 'ShimmerEffectForBookInfoCard.dart';
 class AllBookDataType {
   static BookFirebaseService service = BookFirebaseService();
   static List<BookInfo> list = [];
+  static List<String> bookId = [];
 
   static StreamBuilder<QuerySnapshot<BookInfo>> allBookData() {
     return StreamBuilder<QuerySnapshot<BookInfo>>(
@@ -16,10 +17,12 @@ class AllBookDataType {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             list = snapshot.data.docs.map((e) => e.data()).toList();
+            bookId = snapshot.data.docs.map((e) => e.id).toList();
             return ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (context, index) => ProductInfoCard(
                       bookInfo: list[index],
+                      bookId: bookId[index],
                     ));
           } else {
             return ListView.builder(
@@ -35,10 +38,12 @@ class AllBookDataType {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             list = snapshot.data.docs.map((e) => e.data()).toList();
+            bookId = snapshot.data.docs.map((e) => e.id).toList();
             return ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (context, index) => ProductInfoCard(
                       bookInfo: list[index],
+                      bookId: bookId[index],
                     ));
           } else {
             return ListView.builder(
@@ -54,10 +59,12 @@ class AllBookDataType {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             list = snapshot.data.docs.map((e) => e.data()).toList();
+            bookId = snapshot.data.docs.map((e) => e.id).toList();
             return ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (context, index) => ProductInfoCard(
                       bookInfo: list[index],
+                      bookId: bookId[index],
                     ));
           } else {
             return ListView.builder(

@@ -16,6 +16,10 @@ class FirebaseServices {
     return auth.currentUser.uid;
   }
 
+  String emailId() {
+    return auth.currentUser.email;
+  }
+
   Future<String> addUserProfilePhoto(File profileImage) async {
     final ref = storage.ref().child("user_profile_image").child(uid() + ".jpg");
     await ref.putFile(profileImage);

@@ -1,17 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:freebookshare/FirebaseServices/BookFirebaseService.dart';
 import 'package:freebookshare/Getters%20And%20Setters/BookDetailsAndBookId.dart';
 import 'package:freebookshare/Getters%20And%20Setters/BookInfo.dart';
 import 'package:freebookshare/Product/Screens/AddBookForm.dart';
 
-import '../../../Constants.dart';
 import '../../../SizeConfig.dart';
 
 class MyBookCard extends StatelessWidget {
   final BookInfo bookInfo;
   final String bookId;
 
-  const MyBookCard({this.bookInfo, this.bookId});
+  MyBookCard({this.bookInfo, this.bookId, this.bookDelete});
+
+  BookFirebaseService service = BookFirebaseService();
+
+  final bookDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +28,10 @@ class MyBookCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: getProportionateScreenHeight(207),
+            height: getProportionateScreenHeight(210),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(29),
-              boxShadow: [kDefaultShadow],
             ),
           ),
           CachedNetworkImage(
@@ -124,19 +127,17 @@ class MyBookCard extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: getProportionateScreenHeight(10)),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            bottomRight: Radius.circular(30)),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Delete",
-                        style: TextStyle(color: Colors.white),
+                    child: GestureDetector(
+                      onTap: () =>
+                          bookDelete(context, bookId, bookInfo.imgPath),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: getProportionateScreenHeight(10)),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Delete",
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
                     ),
                   )

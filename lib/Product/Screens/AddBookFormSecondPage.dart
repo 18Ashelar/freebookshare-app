@@ -101,13 +101,28 @@ class _AddBookFormSecondState extends State<AddBookFormSecond> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(children: [
-          Container(
-            padding: EdgeInsets.symmetric(
-                vertical: getProportionateScreenHeight(20),
-                horizontal: getProportionateScreenWidth(25)),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          child: Stack(children: [
+            //Back Button
+            Positioned(
+                left: getProportionateScreenWidth(0),
+                top: getProportionateScreenHeight(5),
+                child: Container(
+                    child: IconButton(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onPressed: () {
+                    print("af");
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                  ),
+                ))),
+            Container(
+              padding: EdgeInsets.symmetric(
+                  vertical: getProportionateScreenHeight(40),
+                  horizontal: getProportionateScreenWidth(25)),
               child: Form(
                 key: _bookUploadSecondFormKey,
                 child: Column(
@@ -315,7 +330,7 @@ class _AddBookFormSecondState extends State<AddBookFormSecond> {
                                   });
                                 });
                               }
-                              //when user dont want to update book image
+                              //when user don't want to update book image
                               else {
                                 book = BookInfo(
                                   userId: bookService.uid(),
@@ -484,9 +499,9 @@ class _AddBookFormSecondState extends State<AddBookFormSecond> {
                 ),
               ),
             ),
-          ),
-          (_isProgress) ? CircularLoading() : Center()
-        ]),
+            (_isProgress) ? CircularLoading() : Center()
+          ]),
+        ),
       ),
     );
   }

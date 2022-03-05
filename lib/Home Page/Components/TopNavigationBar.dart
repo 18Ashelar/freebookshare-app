@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:freebookshare/Screens/AddBookRequest.dart';
-import 'package:freebookshare/TestFile/TestLayout.dart';
+import 'package:freebookshare/Components/CustomSnackbar.dart';
 
 import 'AddBookPopUp.dart';
 import 'IconButtonTop.dart';
@@ -22,7 +21,8 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
           Expanded(
             child: TopIconButton(
                 press: () {
-                  Navigator.pushNamed(context, AddBookRequest.id);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(CustomSnackbar.upcomingFeature);
                 },
                 tooltip: "Add Book Request",
                 icon: Icons.book_outlined,
@@ -31,7 +31,8 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
           Expanded(
             child: TopIconButton(
                 press: () {
-                  Navigator.pushNamed(context, TestLayout.id);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(CustomSnackbar.upcomingFeature);
                 },
                 tooltip: "Chat with User",
                 icon: Icons.chat,

@@ -20,7 +20,7 @@ class BookLoaderFromInternet extends StatefulWidget {
 }
 
 class _BookLoaderFromInternetState extends State<BookLoaderFromInternet> {
-  String _scanBarcode = "9780387988597";
+  String _scanBarcode;
   bool _isProgress = false;
 
   Future<void> scanBarcodeNormal() async {
@@ -47,7 +47,7 @@ class _BookLoaderFromInternetState extends State<BookLoaderFromInternet> {
   Future<List<BookData>> getData() async {
     String isbn = _scanBarcode;
 
-    String apiKey = "AIzaSyDTtGb1GyImFWE3cYmqUThL14237bNfThM";
+    String apiKey = "AIzaSyAglxji_W2zJn6hV7IxGXwXxsUeapC4Xto";
     String url =
         "https://books.googleapis.com/books/v1/volumes?q=isbn:$isbn&maxResults=10&key=$apiKey";
 
@@ -67,10 +67,10 @@ class _BookLoaderFromInternetState extends State<BookLoaderFromInternet> {
 
   @override
   void initState() {
-    // setState(() {
-    //   _isProgress = true;
-    // });
-    // scanBarcodeNormal();
+    setState(() {
+      _isProgress = true;
+    });
+    scanBarcodeNormal();
     super.initState();
   }
 

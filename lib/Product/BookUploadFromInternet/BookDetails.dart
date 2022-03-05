@@ -100,7 +100,7 @@ class BookDetails extends StatelessWidget {
                 ),
               ),
               Container(
-                height: getProportionateScreenHeight(260),
+                height: getProportionateScreenHeight(250),
                 padding: EdgeInsets.all(10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

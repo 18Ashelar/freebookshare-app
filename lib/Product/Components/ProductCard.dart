@@ -6,10 +6,12 @@ import 'package:freebookshare/Product/Screens/ProductDetails.dart';
 import 'package:freebookshare/SizeConfig.dart';
 
 import '../../Constants.dart';
+import 'ProductInfoCard.dart';
 
 class ProductCard extends StatelessWidget {
-  ProductCard({this.bookInfo});
+  ProductCard({this.bookInfo, this.bookId});
   final BookInfo bookInfo;
+  final String bookId;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,10 @@ class ProductCard extends StatelessWidget {
         imageUrl: bookInfo.imgPath,
         imageBuilder: (context, imageProvider) => InkWell(
           onTap: () {
-            Navigator.pushNamed(context, ProductDetails.id,
-                arguments: {"BookInfo": bookInfo});
+            Navigator.pushNamed(context, ProductDetails.id, arguments: {
+              "BookInfo":
+                  BookInfoWithBookId(bookinfo: bookInfo, bookId: bookId),
+            });
           },
           child: Container(
             width: getProportionateScreenWidth(150),
@@ -49,6 +53,7 @@ class ProductCard extends StatelessWidget {
         errorWidget: (context, url, error) {
           return ErrorImagePlaceholder(
             bookInfo: bookInfo,
+            bookId: bookId,
           );
         },
       ),
@@ -57,15 +62,16 @@ class ProductCard extends StatelessWidget {
 }
 
 class ErrorImagePlaceholder extends StatelessWidget {
-  ErrorImagePlaceholder({this.bookInfo});
+  ErrorImagePlaceholder({this.bookInfo, this.bookId});
   final BookInfo bookInfo;
+  final String bookId;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, ProductDetails.id, arguments: {
-          "BookInfo": bookInfo,
+          "BookInfo": BookInfoWithBookId(bookinfo: bookInfo, bookId: bookId),
         });
       },
       child: Container(

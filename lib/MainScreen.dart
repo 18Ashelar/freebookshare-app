@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:freebookshare/HomeScreen.dart';
 
 import 'Constants.dart';
-import 'Home Page/Components/NavigationDrawer.dart';
+import 'Home Page/Drawer/NavigationDrawer.dart';
 import 'Product/Screens/All_available_books.dart';
 import 'Request/Screens/MyRequestForBook.dart';
 import 'SizeConfig.dart';
@@ -40,26 +41,56 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: drawerKey,
-      drawer: NavigationDrawer(),
-      appBar: buildAppBar(),
-      body: _widgetOptions.elementAt(_selectIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_sharp), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: "Books"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.request_page), label: "My Requests"),
-        ],
-        backgroundColor: kPrimaryColor,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(.60),
-        selectedFontSize: 14,
-        currentIndex: _selectIndex,
-        unselectedFontSize: 14,
-        onTap: _onItemTapped,
+    SizeConfig().init(context);
+
+    return WillPopScope(
+      onWillPop: () async {
+        if (_selectIndex == 0) {
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+          return true;
+        } else if (_selectIndex == 1 || _selectIndex == 2) {
+          setState(() {
+            _selectIndex = 0;
+          });
+          return false;
+        }
+        return false;
+      },
+      child: Scaffold(
+        key: drawerKey,
+        drawer: NavigationDrawer(),
+        appBar: buildAppBar(),
+        body: _widgetOptions.elementAt(_selectIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home_sharp,
+                  size: getProportionateScreenHeight(35),
+                ),
+                label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.book,
+                  size: getProportionateScreenHeight(35),
+                ),
+                label: "Books"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.my_library_books_sharp,
+                  size: getProportionateScreenHeight(35),
+                ),
+                label: "My Requests"),
+          ],
+          backgroundColor: kPrimaryColor,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withOpacity(.60),
+          selectedFontSize: 14,
+          currentIndex: _selectIndex,
+          unselectedFontSize: 14,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

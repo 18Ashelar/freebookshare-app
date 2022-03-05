@@ -123,9 +123,24 @@ class _AddBookFormState extends State<AddBookForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(children: [
-          SingleChildScrollView(
-            child: Container(
+        child: SingleChildScrollView(
+          child: Stack(children: [
+            //Back Button
+            Positioned(
+                left: getProportionateScreenWidth(0),
+                top: getProportionateScreenHeight(5),
+                child: Container(
+                    child: IconButton(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                  ),
+                ))),
+            Container(
               height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.symmetric(
                   vertical: getProportionateScreenHeight(20),
@@ -300,9 +315,9 @@ class _AddBookFormState extends State<AddBookForm> {
                 ),
               ),
             ),
-          ),
-          (_isProgress) ? CircularLoading() : Center()
-        ]),
+            (_isProgress) ? CircularLoading() : Center()
+          ]),
+        ),
       ),
     );
   }
